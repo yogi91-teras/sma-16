@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katalog Produk</title>
+    <style>
+        /* Gaya untuk modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(255, 253, 253, 0.925);
+}
+
+.modal-content {
+    background-color: #aa0808;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #3b1919;
+    width: 80%;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+        /* Gaya umum */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #0b1b2b, #f1c40f);
+            margin: 0;
+            padding: 0;
+            color: #f7f6f6;
+        }
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            background-color: #0b1b2b;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        header img {
+            width: 150px;
+            margin: 0 20px;
+        }
+
+        header nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        header nav ul li {
+            margin: 0 15px;
+        }
+
+        header nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Konten utama */
+        .container {
+            padding-top: 100px;
+            text-align: center;
+        }
+
+        .welcome-message {
+            margin: 30px 0;
+            font-size: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .cta-button {
+            background-color: #f1c40f;
+            color: #0b1b2b;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .cta-button:hover {
+            background-color: #e67e22;
+        }
+
+        /* Katalog produk */
+        .catalog {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .catalog-item {
+            background-color: #fffcfc;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition:cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .catalog-item:hover {
+            transform:scale(1.05);
+        }
+
+        .catalog-item img {
+            width: 100%;
+            height: auto
+            border-bottom: 2px solid #fff4f4;
+        }
+
+        .catalog-item h3 {
+            font-size: 1.2rem;
+            margin: 10px 0;
+            color: #0e0c0c;
+        }
+
+        .catalog-item p {
+            font-size: 1rem;
+            color: #0e0c0c;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            color: #333;
+            padding: 20px;
+            border-radius: 8px;
+            width: 60%;
+            text-align: center;
+        }
+
+        .modal-content h2 {
+            margin-bottom: 20px;
+        }
+
+        .modal-content p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 30px;
+            color: #333;
+            cursor: pointer;
+        }
+
+        /* Tombol WhatsApp melayang */
+        .whatsapp-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ff0d00a2;
+            color: white;
+            padding: 15px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<!-- Tombol WhatsApp Melayang -->
+<a href="https://api.whatsapp.com/send?phone=6281536531215" target="_blank" class="whatsapp-button">
+    <img src="logo wa.jpg" alt="Chat dengan kami di WhatsApp" />
+</a>
+
+<style>
+    .whatsapp-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 60px;
+        height: 60px;
+        background-color: #2ff16c;
+        border-radius: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+       
+    }
+
+    .whatsapp-button img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .whatsapp-button:hover {
+        background-color: #128C7E;
+        transform: scale(1.1);
+        transition: background-color 0.3s, transform 0.3s;
+    }
+</style>
+<body>
+
+<header>
+    <img src="logo m.jpg" alt="Logo Perusahaan">
+    <nav>
+        <ul>
+            <li><a href="#beranda">Beranda</a></li>
+            <li><a href="#produk">Produk</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="container" id="beranda">
+    <div class="welcome-message">
+        <h1>Selamat datang di Katalog Produk Kami!</h1>
+        <p>Temukan berbagai produk unggulan yang telah kami pilih khusus untuk Anda. Jelajahi dan temukan produk yang sesuai dengan kebutuhan Anda.</p>
+        <button class="cta-button" onclick="document.getElementById('produk').scrollIntoView({behavior: 'smooth'})">Jelajahi Katalog</button>
+    </div>
+
+   
+    <section id="produk" class="catalog">
+        <!-- Produk 1 -->
+<div class="catalog-item" onclick="openModal('produk1')">
+    <img src="gambar produk 1.jpg" alt="Produk 1">
+    <h3>Sandal Bebek Lucu</h3>
+    <p>Harga: Rp 40.000</p>
+</div>
+
+<!-- Modal untuk Produk 1 -->
+<div id="produk1" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('produk1')">&times;</span>
+        <h2>Sandal Bebek Lucu</h2>
+        <p>Sandal ini memiliki bentuk yang unik dan menarik.</p>
+    </div>
+</div>
+
+<!-- Produk 2 -->
+<div class="catalog-item" onclick="openModal('produk2')">
+    <img src="gambar produk 2.jpg" alt="Produk 2">
+    <h3>Tumbler</h3>
+    <p>Harga: Rp 17.000</p>
+</div>
+
+<!-- Modal untuk Produk 2 -->
+<div id="produk2" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('produk2')">&times;</span>
+        <h2>Tumbler</h2>
+        <p>Tumbler ini sangat cocok untuk dibawa, karena ukuran yang minimalis dan ringan.</p>
+    </div>
+</div>
+
+<!-- Produk 3 -->
+<div class="catalog-item" onclick="openModal('produk3')">
+    <img src="gambar produk 3.jpg" alt="Produk 3">
+    <h3>Dompet Pria</h3>
+    <p>Harga: Rp 100.000</p>
+</div>
+
+<!-- Modal untuk Produk 3 -->
+<div id="produk3" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('produk3')">&times;</span>
+        <h2>Dompet Pria</h2>
+        <p>Dompet ini memiliki kualitas yang bagus dan awet, serta sangat cocok untuk dijadikan hadiah untuk orang tersayang.</p>
+    </div>
+</div>
+
+<!-- Produk 4 -->
+<div class="catalog-item" onclick="openModal('produk4')">
+    <img src="gambar produk 4.jpg" alt="Produk 4">
+    <h3>Boneka Dino</h3>
+    <p>Harga: Rp 99.500</p>
+</div>
+
+<!-- Modal untuk Produk 4 -->
+<div id="produk4" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('produk4')">&times;</span>
+        <h2>Boneka Dino</h2>
+        <p>Boneka ini memiliki desain yang lucu dan cocok untuk koleksi atau hadiah.</p>
+    </div>
+</div>
+
+<!-- Produk 5 -->
+<div class="catalog-item" onclick="openModal('produk5')">
+    <img src="gambar produk 5.jpg" alt="Produk 5">
+    <h3>Bouquet Bunga</h3>
+    <p>Harga: Rp 110.000</p>
+</div>
+
+<!-- Modal untuk Produk 5 -->
+<div id="produk5" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('produk5')">&times;</span>
+        <h2>Bouquet Bunga</h2>
+        <p>Buket bunga segar ini cocok untuk berbagai acara spesial.</p>
+    </div>
+</div>
+
+<!-- Produk 6 -->
+<div class="catalog-item" onclick="openModal('produk6')">
+    <img src="gambar produk 6.jpg" alt="Produk 6">
+    <h3>Boneka Beruang Besar</h3>
+    <p>Harga: Rp 220.000</p>
+</div>
+
+<!-- Modal untuk Produk 6 -->
+<div id="produk6" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('produk6')">&times;</span>
+        <h2>Boneka Beruang Besar</h2>
+        <p>Boneka beruang besar ini sangat empuk dan cocok untuk pelukan.</p>
+    </div>
+</div>
+
+<!-- Produk 7 -->
+<div class="catalog-item" onclick="openModal('produk7')">
+    <img src="gambar produk 7.jpg" alt="Produk 7">
+    <h3>Es Krim</h3>
+    <p>Harga: Rp 18.000</p>
+</div>
+
+<!-- Modal untuk Produk 7 -->
+<div id="produk7" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('produk7')">&times;</span>
+        <h2>Es Krim</h2>
+        <p>Es krim dengan berbagai rasa yang menyegarkan.</p>
+    </div>
+</div>
+
+<!-- Produk 8 -->
+<div class="catalog-item" onclick="openModal('produk8')">
+    <img src="gambar produk 8.jpg" alt="Produk 8">
+    <h3>Jam Tangan Olahraga</h3>
+    <p>Harga: Rp 150.000</p>
+</div>
+
+<!-- Modal untuk Produk 8 -->
+<div id="produk8" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('produk8')">&times;</span>
+        <h2>Jam Tangan Olahraga</h2>
+        <p>Jam tangan ini dirancang khusus untuk aktivitas olahraga.</p>
+    </div>
+</div>
+
+<!-- Produk 9 -->
+<div class="catalog-item" onclick="openModal('produk9')">
+    <img src="gambar produk 9.jpg" alt="Produk 9">
+    <h3>Sepatu Running</h3>
+    <p>Harga: Rp 1.000.000</p>
+</div>
+
+<!-- Modal untuk Produk 9 -->
+<div id="produk9" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('produk9')">&times;</span>
+        <h2>Sepatu Running</h2>
+        <p>Sepatu lari ini memberikan kenyamanan maksimal saat berlari.</p>
+    </div>
+</div>
+
+<!-- Produk 10 -->
+<div class="catalog-item" onclick="openModal('produk10')">
+    <img src="gambar produk 10.jpg" alt="Produk 10">
+    <h3>Ransel Eiger</h3>
+    <p>Harga: Rp 3.500.000</p>
+</div>
+
+<!-- Modal untuk Produk 10 -->
+<div id="produk10" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('produk10')">&times;</span>
+        <h2>Ransel Eiger</h2>
+        <p>Ransel ini sangat cocok untuk di pakai saat mendaki gunung karena memiliki kapasitas yang besar.</p>
+    </div>
+</div>
+<!-- Produk 11 -->
+<div class="catalog-item" onclick="openModal('produk11')">
+    <img src="gambar produk 11.jpg" alt="Produk 11">
+    <h3>Ensiklopedia Sains</h3>
+    <p>Harga: Rp 100.000</p>
+</div>
+
+<!-- Modal untuk Produk 11 -->
+<div id="produk11" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('produk11')">&times;</span>
+        <h2>Ensiklopedia Sains</h2>
+        <p>Buku ini sangat bagus untuk dibaca karena mengandung banyak informasi tentang sains .</p>
+    </div>
+</div>
+<!-- Produk 12 -->
+<div class="catalog-item" onclick="openModal('produk12')">
+    <img src="gambar produk 12.jpg" alt="Produk 12">
+    <h3>Brush Pen</h3>
+    <p>Harga: Rp 85.000</p>
+</div>
+
+<!-- Modal untuk Produk 12 -->
+<div id="produk12" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('produk12')">&times;</span>
+        <h2>Brush Pen</h2>
+        <p>Brush Pen dengan warna yang indah dan lengkap sangat cocok untuk mewarnai .</p>
+    </div>
+</div>
+ 
+
+<var></var>
+
+          <script>
+          function openModal(modalId) {
+    var modal = document.getElementById(modalId);
+    modal.style.display = "block";
+}
+
+
+ // Function to open the modal
+function openModal(modalId) {
+  var modal = document.getElementById(modalId);
+  modal.style.display = "block";
+}
+
+// Function to close the modal
+function closeModal(modalId) {
+  var modal = document.getElementById(modalId);
+  modal.style.display = "none";
+}
+
+// Add event listeners to all modals
+document.querySelectorAll('.modal').forEach(modal => {
+  // Close the modal when the close button is clicked
+  modal.querySelector('.close').addEventListener('click', () => {
+    closeModal(modal.id);
+  });
+
+  // Close the modal when clicking outside the modal content
+  modal.addEventListener('click', (event) => {
+    if (event.target === modal) {
+      closeModal(modal.id);
+    }
+  });
+});
+
+</script>
+           
